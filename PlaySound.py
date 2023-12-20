@@ -1,14 +1,11 @@
 import simpleaudio as sa
-import time
 import numpy as np
-import numba as nb
 
-from NoteNames import *
+
+from NoteNames import *  # german, italian, english note names
 from Lieder import *
 
 sample_rate = 22050
-note_names = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
-note_values = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
 
 
 class Sound():
@@ -75,8 +72,8 @@ class Note(Sound):
 
         float_sound = ((np.sin(2*np.pi*self.frequency*t)           # base frequency
                         + 0.50*np.sin(2*np.pi*self.frequency * \
-                                      t*2)   # 2nd harmonic
-                        + 0.2*np.sin(2*np.pi*self.frequency*t*3))  # 3rd harmonic
+                                      t*2)  # 2nd harmonic
+                        + 0.8*np.sin(2*np.pi*self.frequency*t*3))  # 3rd harmonic
                        * envelope * self.volume)
         self.sound = float_sound.astype(np.int16)
         return self.sound
@@ -113,12 +110,11 @@ class Chord():
 
 melodies = []
 
-for i, voice in enumerate([stille_nacht]):
+for i, voice in enumerate([entchen, entchen2]):
     note_object_list = []
     for note in voice:
-        print(note)
         name = note[0]
-        duration = 1/note[1]*2
+        duration = note[1]
         note_number = notes_to12_all[name[:-1]]
         octave = int(name[-1])
         note = Note(name, 1/duration, note_number, octave, 1000)
