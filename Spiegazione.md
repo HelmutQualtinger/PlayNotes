@@ -1,4 +1,4 @@
-GitHub Copilot
+### GitHub Copilot
 Il codice Python selezionato è un lettore musicale che riproduce una sequenza di note o melodie. Utilizza la libreria simpleaudio per la riproduzione audio e numpy per generare le forme d'onda delle note.
 
 Ecco una descrizione dettagliata di ciò che fa il codice:
