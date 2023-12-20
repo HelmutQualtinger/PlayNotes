@@ -1,6 +1,6 @@
 # Kleine Spielerei mit Musik in Python
 
-Wer in Python seine Nutzer im Hintergrund und völlig asynchron seine User beglücken oder belästigen möchte wird hier fündig. Auch mehrstimmig und nach Noten.
+Wer in Python seine Nutzer im Hintergrund und völlig asynchron  beglücken oder belästigen möchte, wird hier fündig. Auch mehrstimmig und nach Noten.
 
 ## Table of Contents
 
