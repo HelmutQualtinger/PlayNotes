@@ -6,7 +6,6 @@ from scipy.io.wavfile import write as wavwrite
 
 
 from NoteNames import *  # german, italian, english note names
-from Lieder import *
 
 sample_rate = 22050
 
@@ -68,16 +67,17 @@ class Note(Sound):
         t = np.linspace(0.0, self.duration*1.0,
                         int(self.duration * sample_rate), False)
         envelope = np.full_like(t, 1.)
+        # fade out and in to avoid clicks and separate notes
         for sample in range((9*len(envelope))//10, len(envelope)):
             envelope[sample] = 1 - (sample - (9*len(envelope))//10) / \
                 (len(envelope) - (9*len(envelope))//10)
         for sample in range(0, len(envelope)//20):
             envelope[sample] = sample / (len(envelope)//20)
 
-        float_sound = ((np.sin(2*np.pi*self.frequency*t)           # base frequency
+        float_sound = ((np.sin(2.*np.pi*self.frequency*t)           # base frequency
                         + 0.10*np.sin(2*np.pi*self.frequency * \
-                                      t*2)  # 2nd harmonic
-                        + 0.1*np.sin(2*np.pi*self.frequency*t*3))  # 3rd harmonic
+                                      t*2)                         # 2nd harmonic
+                        + 0.4*np.sin(2*np.pi*self.frequency*t*3))  # 3rd harmonic
                        * envelope * self.volume)
         self.sound = float_sound.astype(np.int16)
         return self.sound
