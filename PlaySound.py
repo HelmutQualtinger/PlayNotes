@@ -129,18 +129,16 @@ for j, voice in enumerate([stille_nacht_klarinette1,
             Note(noten_name, duration*2, notes_to12_all[noten_name], octave, volume))
 
     melody = Melody(noten_liste)
-    melody.play()
-    print("Playing melody", len(melody.sound))
-    melody.wait()
+    # melody.play()
+    # print("Playing melody", len(melody.sound))
+    # melody.wait()
     melodies.append(melody)
     wavwrite(f"melody{j}.wav", sample_rate, melody.sound)
-
-# Play both voices at the same time
-multi_track = Sound.sumSounds(melodies)  # Create a MultiTrack object
-print(len(multi_track.sound))
-multi_track.play()  # Play the MultiTrack object
-
-multi_track.wait()  # Wait until the MultiTrack object is done playing
-
-
-wavwrite("melodyboth.wav", sample_rate, multi_track.sound)
+inc_melodies = []
+for i, melody in enumerate(melodies):
+    inc_melodies.append(melody)
+    multi_track = Sound.sumSounds(inc_melodies)
+    multi_track.play()  # Play the MultiTrack object
+    multi_track.wait()  # Wait until the MultiTrack object is done playing
+    print(f"Playing melody {i+1}voice(s)", len(multi_track.sound))
+    wavwrite(f"melody{i+1}voices.wav", sample_rate, multi_track.sound)
