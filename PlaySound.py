@@ -75,7 +75,7 @@ class Note(Sound):
             envelope[sample] = sample / (len(envelope)//20)
 
         float_sound = ((np.sin(2*np.pi*self.frequency*t)           # base frequency
-                        + 0.30*np.sin(2*np.pi*self.frequency * \
+                        + 0.10*np.sin(2*np.pi*self.frequency * \
                                       t*2)  # 2nd harmonic
                         + 0.1*np.sin(2*np.pi*self.frequency*t*3))  # 3rd harmonic
                        * envelope * self.volume)
@@ -97,7 +97,7 @@ class Melody(Sound):
 
 
 class Chord():
-    def __init__(self, notes: list = [], duration: float = 1/4., volume: int = 2000):
+    def __init__(self, notes: list = [], duration: float = 1/4., volume: int = 10000):
         self.notes = notes
         self.duration = duration
         self.volume = volume
@@ -116,7 +116,7 @@ print("stille_nacht_klarinette2")
 print(sum([note[1] for note in stille_nacht_klarinette2]))
 
 for j, voice in enumerate([stille_nacht_klarinette1,
-                          stille_nacht_klarinette2,
+                           stille_nacht_klarinette2,
                            stille_nacht_klarinette3,
                            stille_nacht_klarinette4]):
     noten_liste = []
@@ -124,17 +124,20 @@ for j, voice in enumerate([stille_nacht_klarinette1,
         noten_name = note[0][0:-1]
         octave = int(note[0][-1])
         duration = note[1]
-        volume = 100
+        volume = 4000
         noten_liste.append(
-            Note(noten_name, duration*2, notes_to12_all[noten_name], octave, volume))
+            Note(noten_name, duration*2,
+                 notes_to12_all[noten_name],
+                 octave,
+                 volume))
 
     melody = Melody(noten_liste)
-    # melody.play()
-    # print("Playing melody", len(melody.sound))
-    # melody.wait()
     melodies.append(melody)
+
     wavwrite(f"melody{j}.wav", sample_rate, melody.sound)
 inc_melodies = []
+
+
 for i, melody in enumerate(melodies):
     inc_melodies.append(melody)
     multi_track = Sound.sumSounds(inc_melodies)
