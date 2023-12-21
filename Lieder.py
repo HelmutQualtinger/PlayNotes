@@ -72,8 +72,5 @@ entchen2 = [
     ("H3", 4),   # E-Note mit Länge 4
     ("H3", 4),   # E-Note mit Länge 4
     ("C4", 1),   # E-Note mit Länge 2
-]
-stille_nacht_notes = ["C4", "Eb4", "F4", "G4", "Ab4", "Bb4", "C5", "Eb5"]
-stille_nacht_durations = [0.5, 0.5, 1, 1, 1, 1, 1, 0.5]
 
-stille_nacht = list(zip(stille_nacht_notes, stille_nacht_durations))
+]
