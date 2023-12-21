@@ -1,3 +1,4 @@
+from stillenacht import *  # import the melody
 import simpleaudio as sa
 import numpy as np
 from scipy.io.wavfile import read as wavread
@@ -15,9 +16,10 @@ class Sound():
         self.sound = sound
 
     def sumSounds(list_of_sounds: list):
-        wave = np.zeros(len(list_of_sounds[0].sound), dtype=np.float32)
+        min_length = min([len(sound.sound) for sound in list_of_sounds])
+        wave = np.zeros(min_length, dtype=np.float32)
         for sound in list_of_sounds:
-            wave += sound.sound
+            wave += sound.sound[:min_length]
         wave = wave.astype(np.int16)
         return Sound(wave)
 
@@ -107,25 +109,35 @@ class Chord():
 
 melodies = []
 
-for i, voice in enumerate([entchen, entchen2]):
-    note_object_list = []
-    for note in voice:
-        name = note[0]
-        duration = note[1]
-        note_number = notes_to12_all[name[:-1]]
-        octave = int(name[-1])
-        note = Note(name, 1/duration, note_number, octave, 1000)
-        note_object_list.append(note)
-    melodies.append(Melody(note_object_list))
+# convert the melody to Note objects]):
+print("stille_nacht_klarinette1")
+print(sum([note[1] for note in stille_nacht_klarinette1]))
+print("stille_nacht_klarinette2")
+print(sum([note[1] for note in stille_nacht_klarinette2]))
 
-# Play one voice at a time
-for i, melody in enumerate(melodies):
+for voice in [stille_nacht_klarinette1, stille_nacht_klarinette2, stille_nacht_klarinette3,
+              stille_nacht_klarinette4]:
+    noten_liste = []
+    for i, note in enumerate(voice):
+        noten_name = note[0][0:-1]
+        octave = int(note[0][-1])
+        duration = note[1]
+        volume = 100
+        noten_liste.append(
+            Note(noten_name, duration*2, notes_to12_all[noten_name], octave, volume))
+
+    melody = Melody(noten_liste)
     melody.play()
-    wavwrite(f"melody{i}.wav", sample_rate, melody.sound)
+    print("Playing melody", len(melody.sound))
     melody.wait()
+    melodies.append(melody)
 
 # Play both voices at the same time
 multi_track = Sound.sumSounds(melodies)  # Create a MultiTrack object
+print(len(multi_track.sound))
 multi_track.play()  # Play the MultiTrack object
-wavwrite("melodyboth.wav", sample_rate, multi_track.sound)
+
 multi_track.wait()  # Wait until the MultiTrack object is done playing
+
+
+wavwrite("melodyboth.wav", sample_rate, multi_track.sound)
