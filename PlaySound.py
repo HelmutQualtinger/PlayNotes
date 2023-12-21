@@ -75,9 +75,9 @@ class Note(Sound):
             envelope[sample] = sample / (len(envelope)//20)
 
         float_sound = ((np.sin(2*np.pi*self.frequency*t)           # base frequency
-                        + 0.50*np.sin(2*np.pi*self.frequency * \
+                        + 0.30*np.sin(2*np.pi*self.frequency * \
                                       t*2)  # 2nd harmonic
-                        + 0.8*np.sin(2*np.pi*self.frequency*t*3))  # 3rd harmonic
+                        + 0.1*np.sin(2*np.pi*self.frequency*t*3))  # 3rd harmonic
                        * envelope * self.volume)
         self.sound = float_sound.astype(np.int16)
         return self.sound
@@ -115,8 +115,10 @@ print(sum([note[1] for note in stille_nacht_klarinette1]))
 print("stille_nacht_klarinette2")
 print(sum([note[1] for note in stille_nacht_klarinette2]))
 
-for voice in [stille_nacht_klarinette1, stille_nacht_klarinette2, stille_nacht_klarinette3,
-              stille_nacht_klarinette4]:
+for j, voice in enumerate([stille_nacht_klarinette1,
+                          stille_nacht_klarinette2,
+                           stille_nacht_klarinette3,
+                           stille_nacht_klarinette4]):
     noten_liste = []
     for i, note in enumerate(voice):
         noten_name = note[0][0:-1]
@@ -131,6 +133,7 @@ for voice in [stille_nacht_klarinette1, stille_nacht_klarinette2, stille_nacht_k
     print("Playing melody", len(melody.sound))
     melody.wait()
     melodies.append(melody)
+    wavwrite(f"melody{j}.wav", sample_rate, melody.sound)
 
 # Play both voices at the same time
 multi_track = Sound.sumSounds(melodies)  # Create a MultiTrack object
