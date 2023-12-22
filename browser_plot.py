@@ -39,4 +39,3 @@ fig.update_layout(
 
 
 fig.show()
-p

@@ -7,6 +7,7 @@ name = "pypi"
 simpleaudio = "*"
 numpy = "*"
 scipy = "*"
+plotly = "*"
 
 [dev-packages]
 
